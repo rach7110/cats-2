@@ -26,8 +26,10 @@ Route::get('cats/breed/{name}', function($name) {
 	return View::make('cats.index')
 		->with('breed', $breed)
 		->with('cats', $breed->cats);
-})
+});
 
 Route::get('cats/{id}', function($id){
-	return "Cat #$id";
-})->where('id', '[0-9]');
+	$cat = Cat::find($id);
+	return View::make('cats.single')
+		->with('cat', $cat);
+});
