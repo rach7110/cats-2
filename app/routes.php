@@ -16,8 +16,17 @@ Route::get('/', function(){
 });
 
 Route::get('cats', function(){
-	return "All cats";
+	$cats = Cat::all();
+	return View::make('cats.index')
+		->with('cats', $cats);
 });
+
+Route::get('cats/breed/{name}', function($name) {
+	$breed = Breed::whereName($name)->with('cats')->first();
+	return View::make('cats.index')
+		->with('breed', $breed)
+		->with('cats', $breed->cats);
+})
 
 Route::get('cats/{id}', function($id){
 	return "Cat #$id";
