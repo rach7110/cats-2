@@ -13,8 +13,27 @@
   </h2>
 @stop
 
-<!-- @section('content')
+@section('content')
   {{Form::model($cat, array('method' => $method, 'url' => 'cats/'.$cat->id))}}
-  
-  Last edited: {{$cat->updated_at}}
-@stop -->
+
+  @unless($method == 'delete')
+    <div class="form-group">
+      {{Form::label('Name')}}
+      {{Form::text('name')}}
+    </div>
+    <div class="form-group">
+      {{Form::label('Date of Birth')}}
+      {{Form::text('date_of_birth')}}
+    </div>
+    <div class="form-group">
+      {{Form::label('Breed')}}
+      {{Form::text('breed_id')}}
+    </div>
+
+    {{Form::submit("Save", array("class"=>"btn btn-default"))}}  
+  @else
+    {{Form::submit("Delete", array("class"=>"btn btn-default"))}}
+  @endif
+
+  {{Form::close()}}  
+@stop
