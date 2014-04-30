@@ -34,11 +34,18 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @return string
 	 */
-	public function getAuthPassword()
-	{
+	public function getAuthPassword() {
 		return $this->password;
 	}
-
+  public function cats() {
+    return $this ->hasMany('Cat');
+  }
+  public function owns(Cat $cat){
+    return $this->id ==$cat->owner;
+  }
+  public function canEDit(Cat $cat){
+    return $this->is_admin or $this->owns($cat);
+  }
 	/**
 	 * Get the token value for the "remember me" session.
 	 *
