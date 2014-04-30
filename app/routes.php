@@ -21,7 +21,8 @@ Route::get('cats', function(){
     ->with('cats', $cats);
 });
 
-Route::get('cats/breed/{name}', function($name) {
+Route::get('cats/breeds/{name}', function($name) {
+  $name = ucfirst(strtolower($name));
 	$breed = Breed::whereName($name)->with('cats')->first();
 	return View::make('cats.index')
     ->with('breed', $breed)
