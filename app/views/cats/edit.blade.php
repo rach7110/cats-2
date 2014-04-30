@@ -27,7 +27,7 @@
     </div>
     <div class="form-group">
       {{Form::label('Breed')}}
-      {{Form::text('breed_id')}}
+      {{Form::select('breed_id', $breed_options)}}
     </div>
 
     {{Form::submit("Save", array("class"=>"btn btn-default"))}}  
