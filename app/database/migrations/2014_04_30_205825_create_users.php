@@ -29,9 +29,10 @@ class CreateUsers extends Migration {
 	 *
 	 * @return void
 	 */
-	public function down()
-	{
-		//
-	}
-
+	public function down() {
+		Schema::table('cats', function($table){
+      $table->dropForeign('cats_user_id_foreign');
+      $table->dropColumn('user_id');
+    });
+	Schema::drop('users');
 }
