@@ -16,10 +16,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * The attributes excluded from the model's JSON form.
 	 *
 	 * @var array
-	 */
+	 */  
 	protected $hidden = array('password');
 
-	/**
+	/** 
 	 * Get the unique identifier for the user.
 	 *
 	 * @return mixed
@@ -41,9 +41,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     return $this ->hasMany('Cat');
   }
   public function owns(Cat $cat){
-    return $this->id ==$cat->owner;
+    return $this->id == $cat->owner;
   }
-  public function canEDit(Cat $cat){
+  public function canEdit(Cat $cat){
     return $this->is_admin or $this->owns($cat);
   }
 	/**

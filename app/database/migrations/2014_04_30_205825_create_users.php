@@ -11,15 +11,15 @@ class CreateUsers extends Migration {
 	 * @return void
 	 */
 	public function up(){
-    SChema::create('users', function($table){
-      $table->incrememnts('id');
+    Schema::create('users', function($table){
+      $table->increments('id');
       $table->string('username');
       $table->string('password');
       $table->boolean('is_admin');
       $table->timestamps();
     });
 
-    Schema::table('cats', fucntion($table){
+    Schema::table('cats', function($table){
       $table->integer('user_id')->nullable()->reference('id')->on('users');
     });
 	}
@@ -34,5 +34,6 @@ class CreateUsers extends Migration {
       $table->dropForeign('cats_user_id_foreign');
       $table->dropColumn('user_id');
     });
-	Schema::drop('users');
+	 Schema::drop('users');
+  }
 }
