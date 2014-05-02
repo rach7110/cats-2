@@ -29,21 +29,6 @@ Route::get('cats/breeds/{name}', function($name) {
     ->with('cats', $breed->cats);
 });
 
-// CREATE:
-Route::get('cats/create', function() {
-	$cat = new Cat;
-	return View::make('cats.edit')
-    ->with('cat', $cat)
-    ->with('method', 'post');
-});
-
-// CREATE HANDLER: POST
-Route::post('cats', function(){
-  $cat=Cat::create(Input::all());
-  return Redirect::to('cats/'.$cat->id)
-    ->with('message', 'Succesfully created new cat!');
-});
-
 // SINGLE CAT:
 
 Route::model('cat', 'Cat'); // <- bound model to route.
@@ -53,32 +38,60 @@ Route::get('cats/{cat}', function(Cat $cat) {
     ->with('cat', $cat);
 });
 
-// EDIT:
-Route::get('cats/{cat}/edit', function(Cat $cat) {
-  return View::make('cats.edit')
-    ->with('cat', $cat) 
-    ->with('method', 'put');
-});
+Route::group(array('before'=>'auth'), function(){
+  // CREATE:
+  Route::get('cats/create', function() {
+    $cat = new Cat;
+    return View::make('cats.edit')
+      ->with('cat', $cat)
+      ->with('method', 'post');
+  });
 
-// EDIT HANDLER: 
-Route::put('cats/{cat}', function(Cat $cat){
-  $cat->update(Input::all());
-  return Redirect::to('cats/'.$cat->id)
-    ->with('message', 'Successfully updated $cat->id cat!');
-});
+  // CREATE HANDLER: POST
+  Route::post('cats', function(){
+    $cat=Cat::create(Input::all());
+    $cat->user_id = Auth::user()->id;
+    if($cat->save()){
+      return Redirect::to('cats/'.$cat->id)
+        ->with('message', 'Succesfully created new cat!');      
+      } else {
+        return Redirect::back()
+          ->with('error', 'COuld not create profile');
+      }
+  });
 
-// DELETE:
-Route::get('cats/{cat}/delete', function(Cat $cat) {
-  return View::make('cats.edit')
-    ->with('cat', $cat)
-    ->with('method', 'delete');
-});
+  // EDIT:
+  Route::get('cats/{cat}/edit', function(Cat $cat) {
+    return View::make('cats.edit')
+      ->with('cat', $cat) 
+      ->with('method', 'put');
+  });
 
-// DELETE HANDLER: 
-Route::put('cats/{cat}', function(Cat $cat){
-  $cat->delete();
-  return Redirect::to('cats')
-      ->with('message', 'Successfully deleted page!');
+  // EDIT HANDLER: 
+  Route::put('cats/{cat}', function(Cat $cat){
+    if(Auth::user()->canEdit($cat)){
+      $cat->update(Input::all());
+      return Redirect::to('cats/'.$cat->id)
+        ->with('message', 'Successfully updated $cat->id cat!');
+    } else {
+      return Redirect::to('cats/'.$cat->id)
+        ->with('error', "unauthorized operation");  
+    }
+  });
+
+  // DELETE:
+  Route::get('cats/{cat}/delete', function(Cat $cat) {
+    return View::make('cats.edit')
+      ->with('cat', $cat)
+      ->with('method', 'delete');
+  });
+
+  // DELETE HANDLER: 
+  Route::put('cats/{cat}', function(Cat $cat){
+    $cat->delete();
+    return Redirect::to('cats')
+        ->with('message', 'Successfully deleted page!');
+  });
 });
 
 // View composer: allows you to bind a variable to a specific view each time.
@@ -92,7 +105,7 @@ View::composer('cats.edit', function($view){
   $view->with('breed_options', $breed_options);
 });
 
-// Login:
+// LOGIN:
 Route::get('login', function(){
   return View::make('login');
 });
@@ -105,4 +118,10 @@ Route::post('login', function(){
       ->withInput()
       ->with('error', "Invalid credentials");
   }
+});
+
+// LOGOUT:
+Route::get('logout', function() {
+  Auth::logout();
+  return Redirect::to('/')->with('message', 'You are now logged out');
 });
