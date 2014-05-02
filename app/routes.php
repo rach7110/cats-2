@@ -91,3 +91,18 @@ View::composer('cats.edit', function($view){
   }
   $view->with('breed_options', $breed_options);
 });
+
+// Login:
+Route::get('login', function(){
+  return View::make('login');
+});
+
+Route::post('login', function(){
+  if(Auth::attempt(Input::only('username', 'password'))) {
+    return Redirect::intended('/');
+  } else {
+    return Redirect::back()
+      ->withInput()
+      ->with('error', "Invalid credentials");
+  }
+});
