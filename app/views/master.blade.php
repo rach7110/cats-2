@@ -16,6 +16,7 @@
 						{{link_to('logout', 'Log Out')}}
 					@else
 						{{link_to('login', 'Log In')}}
+					@endif
 				</div>
 				@yield('header')
 			</div>
@@ -24,13 +25,13 @@
 				<div class="alert alert-success">
 					{{Session::get('message')}}
 				</div>
-				@endif
+			@endif
 <!--Display error messages-->
 			@if(Session::has('error'))
 				<div class="alert alert-warning">
 					{{Session::get('error')}}
 				</div>
-				@endif
+			@endif
 <!-- Display Main Content -->
 			@yield('content')
 		</div>
