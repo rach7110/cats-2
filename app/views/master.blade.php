@@ -18,6 +18,9 @@
 						{{link_to('login', 'Log In')}}
 					@endif
 				</div>
+				<div class="text-right">
+					{{link_to('login', 'Log In')}}				
+				</div>
 				@yield('header')
 			</div>
 <!-- Display success messages -->

@@ -38,6 +38,15 @@ Route::filter('auth', function()
 	if (Auth::guest()) return Redirect::guest('login');
 });
 
+/*
+|
+|By default, the basic filter will use the email column on the user record when 
+|authenticating. If you wish to use another column you may pass the column name as 
+|the first parameter to the basic method.
+|Example:    
+|  return Auth::basic('username');
+|
+*/
 
 Route::filter('auth.basic', function()
 {
@@ -57,7 +66,7 @@ Route::filter('auth.basic', function()
 
 Route::filter('guest', function()
 {
-	if (Auth::check()) return Redirect::to('/');
+	if (Auth::check()) return Redirect::to('/')->with('flash_notice', 'You are already logged in!');
 });
 
 /*

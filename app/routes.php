@@ -56,7 +56,7 @@ Route::group(array('before'=>'auth'), function(){
         ->with('message', 'Succesfully created new cat!');      
       } else {
         return Redirect::back()
-          ->with('error', 'COuld not create profile');
+          ->with('error', 'Could not create profile');
       }
   });
 
