@@ -10,15 +10,19 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+Route::get('/', function(){
+  return Redirect::to('cats');
+});
+
 Route::resource('users', 'UsersController');
 
-Route::get('/{name}', function($name){
-    $user = User::where('username', '==', $name);
-    // dd($user);
-    return $user->username;
-  // return Redirect::to('cats');
-  }
-);
+// Route::get('/{name}', function($name){
+//     $user = User::where('username', '==', $name);
+//     // dd($user);
+//     return $user->username;
+//   // return Redirect::to('cats');
+//   }
+// );
 
 Route::get('cats', function(){
   $cats = Cat::all();
