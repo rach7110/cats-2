@@ -10,6 +10,11 @@
 | and give it the Closure to execute when that URI is requested.
 |
 */
+
+
+Route::get('php', 'phpController@build');
+
+
 Route::get('/', function(){
   return Redirect::to('cats');
 });
