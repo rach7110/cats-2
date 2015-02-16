@@ -32,20 +32,25 @@ class phpController extends \BaseController {
     $numeric = [];
     $string = [];
     $boolean = [];
+    $random = [];
 
     foreach($wordArray as $word) {
 
-      $wordType = gettype($word);
-
-      if ($wordType == "integer" || $wordType == "double" ) {
-
+      if (is_numeric($word)) {
         array_push($numeric, $word);
-
-      } 
+      } elseif (is_bool($word)) {
+        array_push($string, $word);
+      } elseif(is_string($word)){
+        array_push($boolean, $word);
+      } else {
+        array_push($random, $word);
+      }
 
     }
 
-    return $numeric;
+    echo "<p>Numeric: </p>";
+    echo "</br>";
+    return ($numeric);
 
 
 
