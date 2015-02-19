@@ -4,19 +4,56 @@ class patherController extends \BaseController {
  
   public function run() {
     
-    $grid = [];
-    $fp = fopen('output.txt', 'w');
+    $x_coord = 0;
+    $y_coord = 0;
 
-    $handle = fopen('input.txt', 'r', true);
-    while( !feof($handle) ) {
-      $line = fgets($handle);
-      fwrite($fp, $line);
-      array_push($grid, $line);
+    $hash_coords = [
+      'x_hash' => false,
+      'y_hash' => false
+    ];
+
+    $output_file = fopen('output.txt', 'w');
+
+    $input_file = fopen('input.txt', 'r', true);
+
+  //FIND THE COORDINATES OF THE HASH SYMBOLS IN THE INPUT FILE:
+    while( !feof($input_file) ) {
+
+      $y_coord = $y_coord +=1;
+
+      // READ EACH LINE:
+      $line = fgets($input_file);
+      $characters = str_split($line); //CONVERT STRING TO ARRAY
+      // $x_max = count($string);
+      print_r($characters);
+      echo "</br>";
+      echo "</br>";
+
+      // for($x; $x <= $x_max; $x++) {
+        foreach( $characters as $index=>$character ) {
+          if ($character == '#') {
+            $hash_coords['x_hash'] = $index;
+            $hash_coords['y_hash'] = $y_coord;
+
+            return $hash_coords;
+          }
+        }
+
+        print_r($hash_coords);
+        // echo "</br>";
+
+      // }
+
     }
+    exit;
 
-    fclose($fp);
+    // fwrite($output_file, $output);
+
+    fclose($output_file);
     
   }
+
+  // ........................
 
 }
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
