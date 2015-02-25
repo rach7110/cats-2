@@ -4,56 +4,71 @@ class patherController extends \BaseController {
  
   public function run() {
     
-    $x_coord = 0;
-    $y_coord = 0;
+    function find_hash_coordinates($file_name) {
+      $all_hash_coords = array();
 
-    $hash_coords = [
-      'x_hash' => false,
-      'y_hash' => false
-    ];
+      $input_file = fopen($file_name, 'r', true);
+      
+      $y_coord = 0; //WHERE IT STARTS TO READ THE FILE.
 
-    $output_file = fopen('output.txt', 'w');
+    //FIND THE COORDINATES OF THE HASH SYMBOLS IN THE INPUT FILE:
+      while( !feof($input_file) ) {
 
-    $input_file = fopen('input.txt', 'r', true);
+        $y_coord = $y_coord +=1;
 
-  //FIND THE COORDINATES OF THE HASH SYMBOLS IN THE INPUT FILE:
-    while( !feof($input_file) ) {
-
-      $y_coord = $y_coord +=1;
-
-      // READ EACH LINE:
-      $line = fgets($input_file);
-      $characters = str_split($line); //CONVERT STRING TO ARRAY
-      // $x_max = count($string);
-      print_r($characters);
-      echo "</br>";
-      echo "</br>";
-
-      // for($x; $x <= $x_max; $x++) {
-        foreach( $characters as $index=>$character ) {
-          if ($character == '#') {
-            $hash_coords['x_hash'] = $index;
-            $hash_coords['y_hash'] = $y_coord;
-
-            return $hash_coords;
-          }
-        }
-
-        print_r($hash_coords);
+        // READ EACH LINE:
+        $line = fgets($input_file);
+        $characters = str_split($line); //CONVERT STRING TO ARRAY
+        // echo"<pre>";
+        // print_r($characters);
+        // echo "</pre>";
+        // echo "</br>";
         // echo "</br>";
 
-      // }
+          foreach( $characters as $index=>$character ) {
+            if ($character == '#') {
+              $x = $index+1;
+              $y = $y_coord;
+              $hash_coords = [$x, $y];
+              array_push($all_hash_coords, $hash_coords);
+            }
+          }
+      }
+      // echo "Position of Hash Coordinates: ";
+      // echo "</pre>";
+      // echo"<pre>";
+      // print_r($all_hash_coords);
+      // echo"</pre>";
+
+      return $all_hash_coords;
 
     }
-    exit;
 
-    // fwrite($output_file, $output);
+    function make_a_path($h) {
+      $all_hash_coords = $h;
 
-    fclose($output_file);
+      foreach ($all_hash_coords as $hash) {
+        $x = $hash[0];
+        $y = $hash[1];
+        for($i; $i=15; $i++) {
+          
+        }
+        echo "(" . $x . ", " . $y . ")";
+        echo "</br>";
+      }
+
+      exit;
+
+      $output_file = fopen('output.txt', 'w');
+      fwrite($output_file, $output);
+      fclose($output_file);
     
-  }
+    }
+    
+  $hash_locations = find_hash_coordinates('input.txt');
+  make_a_path($hash_locations);
 
-  // ........................
+  }
 
 }
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -12,6 +12,8 @@
 */
 
 // SANDBOX:
+Route::get('scope', 'HomeController@scope');
+
 Route::get('pather', 'patherController@run');
 
 Route::get('php', 'phpController@build');
