@@ -1,0 +1,57 @@
+*, *:before, *:after {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+div {
+  border: solid darkblue 1px;
+}
+
+p {
+    background-color: #269abc;
+    color: ghostwhite;
+}
+
+img {
+    max-width:100%;
+    height:auto;
+}
+
+.container {
+    /*margin: 0 auto;*/
+    /*width: 90%;*/
+    width: 100%;
+    max-width: 1200px;
+}
+
+/*-- our cleafix hack -- */
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+@media all and (min-width:800px){
+    [class*='col-'] {
+        float: left;        /*column positioning - 'float' seems to be the least error prone.*/
+        min-height: 1px;    /*so empty columns do not stack vertically.*/
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    .col-1{ width: 33.33%;    }
+    .col-2{ width: 50%;        }
+    .col-3{ width: 83.33%;    }
+    .col-4{ width: 100%;    }
+    .col-5{ width: 100%;    }
+    .col-6{ width: 100%;      }
+}
+
