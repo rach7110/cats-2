@@ -12,6 +12,10 @@
 */
 
 // SANDBOX:
+Route::get('responsive', function() {
+    return View::make('responsive');
+});
+
 Route::get('scope', 'HomeController@scope');
 
 Route::get('pather', 'patherController@run');
@@ -25,13 +29,13 @@ Route::get('/', function(){
 
 Route::resource('users', 'UsersController');
 
-Route::get('/{name}', function($name){
-    $user = User::where('username', '==', $name);
-    // dd($user);
-    return $user->username;
-  // return Redirect::to('cats');
-  }
-);
+//Route::get('/{name}', function($name){
+//    $user = User::where('username', '==', $name);
+//    // dd($user);
+//    return $user->username;
+//  // return Redirect::to('cats');
+//  }
+//);
 
 Route::get('cats', function(){
   $cats = Cat::all();
